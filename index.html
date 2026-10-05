@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RYA Wellbeing Data Platform</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.6/dist/jstat.min.js"></script>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<header class="top-nav">
+
+    <div class="brand">
+
+        <img
+        src="assets/images/rya-logo.png"
+        alt="Resilient Youth Australia"
+        class="brand-logo"
+    >
+
+        <div class="brand-text">
+            <strong>Resilient Youth Australia</strong>
+            <span>Wellbeing Data Platform</span>
+        </div>
+
+    </div>
+
+
+    <nav class="nav-links">
+
+        <a href="#">Home</a>
+
+        <a
+            href="#"
+            class="active"
+        >
+            Explore Data
+        </a>
+
+        <a href="#">
+            Methodology
+        </a>
+
+        <a href="#">
+            About
+        </a>
+
+    </nav>
+
+
+    <div class="nav-actions">
+
+        <button class="download-button">
+            Download data
+        </button>
+
+        <button class="help-button">
+            ?
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     PAGE
+========================= -->
+
+<div class="page-wrapper">
+
+<section class="indicator-navigation" aria-label="Explore wellbeing indicators">
+    <p class="navigation-label">Wellbeing domain</p>
+
+    <div id="domainButtons" class="domain-buttons"
+         role="group" aria-label="Wellbeing domain">
+    </div>
+
+    <div class="indicator-selection">
+        <p class="navigation-label">Indicator</p>
+
+        <div id="indicatorButtons" class="indicator-buttons"
+             role="group" aria-label="Indicator">
+        </div>
+    </div>
+</section>
+
+    <!-- PAGE TITLE -->
+
+    <section class="page-heading">
+
+        <div>
+
+            <h1 id="indicatorTitle">Life Satisfaction</h1>
+
+            <p id="indicatorDescription">
+                Explore how students rate their overall life satisfaction.
+            </p>
+
+            <p>
+                Select a domain and indicator to explore student wellbeing.
+            </p>
+
+        </div>
+
+
+        <div class="survey-info">
+
+            <div class="info-circle">
+                i
+            </div>
+
+            <div>
+
+                <strong>
+                    Data from the Resilient Youth Australia Survey
+                </strong>
+
+                <p>
+                    Grade 3–12 students across Australia
+                </p>
+
+                <a href="#">
+                    View methodology →
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================= -->
+
+    <div class="dashboard-layout">
+
+
+        <!-- FILTER SIDEBAR -->
+
+        <aside class="filter-card">
+
+            <div class="filter-title">
+                <div class="filter-title-copy">
+                    <span class="filter-icon" aria-hidden="true">☷</span>
+                    <h2>Refine results</h2>
+                </div>
+
+                <button type="button" id="resetFilters" class="filter-reset">
+                    Reset
+                </button>
+            </div>
+
+            <!-- COMPARE BY -->
+
+            <div class="filter-section compare-section">
+                <div class="filter-label-row">
+                    <span>Compare results by</span>
+                </div>
+
+                <div class="compare-toggle" role="group" aria-label="Compare results by">
+                    <button
+                        type="button"
+                        class="compare-button active"
+                        data-grouping="genderN"
+                        aria-pressed="true"
+                    >
+                        Gender
+                    </button>
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                        data-grouping="grade"
+                        aria-pressed="false"
+                    >
+                        Grade
+                    </button>
+                </div>
+
+                <p class="filter-helper">
+                    Controls how groups appear in the charts.
+                </p>
+
+                <select id="grouping" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                    <option value="genderN">Gender</option>
+                    <option value="grade">Grade</option>
+                </select>
+            </div>
+
+            <!-- MAIN GROUP -->
+
+            <div class="filter-section">
+                <div class="filter-label-row">
+                    <span id="groupLabel">Gender</span>
+                    <span class="filter-info" aria-hidden="true">i</span>
+                </div>
+
+                <div class="filter-chip-grid" id="groupChoiceGrid">
+                    <label class="filter-chip all-chip">
+                        <input type="checkbox" id="groupAll" checked>
+                        <span id="groupAllLabel">All</span>
+                    </label>
+
+                    <div id="groupOptions" class="checkbox-options"></div>
+                </div>
+            </div>
+
+            <!-- SECONDARY FILTER -->
+
+            <div class="filter-section">
+                <div class="filter-label-row">
+                    <span id="secondaryLabel">Grade</span>
+                    <span class="filter-info" aria-hidden="true">i</span>
+                </div>
+
+                <div class="filter-chip-grid" id="secondaryChoiceGrid">
+                    <label class="filter-chip all-chip">
+                        <input type="checkbox" id="secondaryAll" checked>
+                        <span id="secondaryAllLabel">All</span>
+                    </label>
+
+                    <div id="secondaryOptions" class="checkbox-options"></div>
+                </div>
+            </div>
+
+            <!-- SES -->
+
+            <div class="filter-section">
+                <div class="filter-label-row">
+                    <span>Socioeconomic status (SES)</span>
+                    <span class="filter-info" aria-hidden="true">i</span>
+                </div>
+
+                <div class="filter-chip-grid ses-chip-grid">
+                    <label class="filter-chip all-chip">
+                        <input type="checkbox" id="sesAll" checked>
+                        <span>All</span>
+                    </label>
+
+                    <div id="sesOptions" class="checkbox-options">
+                        <label class="option-checkbox filter-chip">
+                            <input type="checkbox" class="ses-option" value="Low">
+                            <span>Low</span>
+                        </label>
+
+                        <label class="option-checkbox filter-chip">
+                            <input type="checkbox" class="ses-option" value="Mid">
+                            <span>Mid</span>
+                        </label>
+
+                        <label class="option-checkbox filter-chip">
+                            <input type="checkbox" class="ses-option" value="High">
+                            <span>High</span>
+                        </label>
+                    </div>
+                </div>
+
+                <p class="filter-helper ses-helper">
+                    Low: deciles 1–3 · Mid: 4–7 · High: 8–10
+                </p>
+            </div>
+
+            <!-- YEAR -->
+
+            <div class="filter-section year-section">
+                <label for="year">Year</label>
+                <select id="year"></select>
+            </div>
+
+        </aside>
+
+
+
+        <!-- MAIN DASHBOARD -->
+
+        <main class="dashboard-main">
+
+
+            <!-- KPI CARDS -->
+
+            <section class="kpi-grid" id="lifeSatisfactionCards">
+
+
+                <article class="kpi-card thriving-card">
+
+                    <div class="kpi-icon">
+                        <img src="assets/images/thriving.png" alt="Thriving">
+                    </div>
+
+                    <div>
+
+                        <span class="kpi-label">
+                            Thriving
+                        </span>
+
+                        <strong
+                            class="kpi-value"
+                            id="thrivingPercent"
+                        >
+                            —
+                        </strong>
+
+                        <span class="kpi-caption">
+                            of students
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+
+                <article class="kpi-card doing-card">
+
+                    <div class="kpi-icon">
+                        <img src="assets/images/doing-ok.png" alt="Doing OK">
+                    </div>
+
+                    <div>
+
+                        <span class="kpi-label">
+                            Doing OK
+                        </span>
+
+                        <strong
+                            class="kpi-value"
+                            id="doingOKPercent"
+                        >
+                            —
+                        </strong>
+
+                        <span class="kpi-caption">
+                            of students
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+
+                <article class="kpi-card struggling-card">
+
+                    <div class="kpi-icon">
+                        <img src="assets/images/struggling.png" alt="Struggling">
+                    </div>
+
+                    <div>
+
+                        <span class="kpi-label">
+                            Struggling
+                        </span>
+
+                        <strong
+                            class="kpi-value"
+                            id="strugglingPercent"
+                        >
+                            —
+                        </strong>
+
+                        <span class="kpi-caption">
+                            of students
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- CHARTS -->
+
+            <section class="chart-grid">
+
+
+                <!-- STACKED -->
+
+                <article class="dashboard-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <h2 id="distributionTitle">
+                                How are students feeling?
+                            </h2>
+
+                            <p id="distributionDescription">
+                                Percentage of students in each
+                                wellbeing group
+                            </p>
+
+                        </div>
+
+                        <span class="mini-info">
+                            i
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="stackedChart"
+                        class="chart-area"
+                    >
+                    </div>
+
+
+                    <button class="secondary-button">
+                        View data table
+                    </button>
+
+                </article>
+
+
+
+                <!-- MEAN -->
+
+                <article class="dashboard-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <h2 id="comparisonTitle">
+                                Average life satisfaction
+                                (mean score)
+                            </h2>
+
+                            <p id="comparisonDescription">
+                                Mean (M) with 95% confidence
+                                interval (95% CI)
+                            </p>
+
+                        </div>
+
+                        <span class="mini-info">
+                            i
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="meanChart"
+                        class="chart-area"
+                    >
+                    </div>
+
+
+                    <button class="secondary-button" id="comparisonInfoButton">
+                        About confidence intervals
+                    </button>
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- SUMMARY -->
+
+            <section class="summary-banner">
+
+                <div class="summary-icon">
+                    ↗
+                </div>
+
+                <p id="summaryText">
+                    Select a wellbeing domain and indicator to explore.
+                </p>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
