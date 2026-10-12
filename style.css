@@ -1555,24 +1555,78 @@ body {
     }
 }
 
-.chart-summary { 
-margin-top: 14px; 
-padding: 14px 16px; 
-background: #f5f9fc; 
-border-radius: 10px; 
-border-left: 3px solid #397ab6;
+.chart-summary {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: #f5f9fc;
+    border-radius: 10px;
+    border-left: 3px solid #397ab6;
 }
 
-.chart-summary strong { 
-display: block; 
-margin-bottom: 5px; 
-font-size: 13px; 
-color: var(--navy);
+.chart-summary strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: var(--navy);
 }
 
-.chart-summary p { 
-margin: 0; 
-font-size: 13px; 
-line-height: 1.5; 
-color: #5d96db;
+.chart-summary p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #5d96db;
+}
+
+/* Additional cards reuse the original Life Satisfaction styles. */
+#ryaOutcomeExtension[hidden] {
+    display: none !important;
+}
+
+#ryaOutcomeExtension {
+    min-width: 0;
+}
+
+#ryaOutcomeExtension .outcome-frequency-card {
+    background: #f3f8fc;
+    border-color: #dce7f1;
+}
+
+#ryaOutcomeExtension .outcome-frequency-card .kpi-value {
+    color: #287daf;
+}
+
+@media (min-width: 1101px) {
+    #ryaOutcomeExtension .outcome-four-cards {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* Compact horizontal outcomes: retain Life Satisfaction typography and icon size. */
+#ryaOutcomeExtension .outcome-four-cards {
+    gap: 16px;
+}
+
+#ryaOutcomeExtension .outcome-four-cards .kpi-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    min-width: 0;
+    min-height: 156px;
+    padding: 24px 12px;
+    gap: 12px;
+}
+
+#ryaOutcomeExtension .outcome-four-cards .kpi-card > div:last-child {
+    min-width: 0;
+}
+
+#ryaOutcomeExtension .outcome-four-cards .kpi-label {
+    overflow-wrap: normal;
+}
+
+@media (min-width: 1101px) and (max-width: 1399px) {
+    #ryaOutcomeExtension .outcome-four-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
