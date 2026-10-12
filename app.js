@@ -985,3 +985,80 @@ function updateAllOption(allCheckbox, optionSelector) {
 
     allCheckbox.checked = false;
 }
+/* Outcome cards only: the original code above is preserved verbatim. */
+(() => {
+  'use strict';
+  const existing = 'assets/images/';
+  const icons = `${existing}outcomes/`;
+  const threeImages = ['thriving.png', 'doing-ok.png', 'struggling.png'].map(name => existing + name);
+  const frequencyImages = ['rarely', 'sometimes', 'often', 'always'].map(name => `${icons}${name}.svg`);
+  const categoryNames = ['Category 1', 'Category 2', 'Category 3', 'Category 4'];
+  const make = (title, labels, images, kind = 'cards', pending = false) => ({title, labels, images, kind, pending});
+  const views = {
+    hope: make('Hope', ['High hope', 'Mid hope', 'Low hope'], threeImages),
+    anxiety: make('Anxiety', ['Low symptoms', 'Mid symptoms', 'High symptoms'], threeImages),
+    depression: make('Depression', ['Low symptoms', 'Mid symptoms', 'High symptoms'], threeImages),
+    'connection-to-nature': make('Connection to Nature', ['High connection', 'Mid connection', 'Low connection'], threeImages),
+    'school-engagement': make('School Engagement', ['Never/Rarely', 'Sometimes', 'Often', 'Always'], ['1', '2', '3', '4'].map(level => `${icons}school-engagement-${level}.svg`)),
+    friendship: make('Friendship', ['Never/Rarely', 'Sometimes', 'Often', 'Always'], ['1', '2', '3', '4'].map(level => `${icons}friendship-${level}.svg`)),
+    family: make('Family Support', ['Never/Rarely', 'Sometimes', 'Often', 'Always'], ['1', '2', '3', '4'].map(level => `${icons}family-${level}.svg`)),
+    'experience-of-being-bullied': make('Experience of Being Bullied', ['Daily', 'Weekly', 'Monthly', 'Never'], ['daily', 'weekly', 'monthly', 'never'].map(name => `${icons}${name}.svg`)),
+    'healthy-eating': make('Healthy Eating', categoryNames, [], 'chart', true),
+    'adequate-sleep': make('Adequate Sleep', categoryNames, [], 'chart', true),
+    'physically-active': make('Physically Active', categoryNames, [], 'chart', true),
+    'frequency-of-use': make('Frequency of Use', [], [], 'social', true),
+    'reason-for-use': make('Reason for Use', [], [], 'social', true)
+  };
+  function element(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  function append(parent, ...children) { parent.append(...children); return parent; }
+  function card(label, image, index, count) {
+    // Reuse the exact Life Satisfaction markup and all of its sizing rules.
+    const templates = document.querySelectorAll('#lifeSatisfactionCards .kpi-card');
+    const node = templates[count === 3 ? index : 0].cloneNode(true);
+    node.querySelectorAll('[id]').forEach(item => item.removeAttribute('id'));
+    if (count === 4) {
+      node.classList.remove('thriving-card');
+      node.classList.add('outcome-frequency-card');
+    }
+    node.querySelector('.kpi-label').textContent = label;
+    const img = node.querySelector('.kpi-icon img');
+    img.src = image;
+    img.alt = '';
+    node.querySelector('.kpi-value').textContent = '—';
+    return node;
+  }
+
+  function startOutcomeCards() {
+    const main = document.querySelector('.dashboard-main');
+    const charts = main?.querySelector('.chart-grid');
+    const navigation = document.getElementById('indicatorButtons');
+    if (!charts || !navigation || document.getElementById('ryaOutcomeExtension')) return;
+    const root = element('section', 'rya-outcome-extension');
+    root.id = 'ryaOutcomeExtension';
+    main.insertBefore(root, charts);
+    function renderOutcomeCards() {
+      const id = navigation.querySelector('[aria-pressed="true"]')?.dataset.indicator;
+      const view = views[id];
+      root.replaceChildren();
+      root.hidden = !view || view.kind !== 'cards';
+      if (root.hidden) return;
+      root.setAttribute('aria-label', view.title + ' outcome categories');
+      const grid = element('div', 'kpi-grid rya-outcome-cards');
+      if (view.labels.length === 4) grid.classList.add('outcome-four-cards');
+      view.labels.forEach((label, index) => grid.append(card(label, view.images[index], index, view.labels.length)));
+      root.append(grid);
+    }
+    new MutationObserver(renderOutcomeCards).observe(navigation, {
+      childList: true, subtree: true, attributes: true, attributeFilter: ['aria-pressed']
+    });
+    renderOutcomeCards();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startOutcomeCards, {once: true});
+  } else startOutcomeCards();
+})();
