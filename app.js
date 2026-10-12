@@ -642,6 +642,32 @@ function updateLifeSatisfaction(data) {
 
     document.getElementById("summaryText").textContent =
         `Based on ${total.toLocaleString()} students, the average life satisfaction score is ${mean.toFixed(2)}.`;
+    
+    const wellbeingGroups = [ 
+        { 
+        name: "Thriving", 
+        value: thrivingPercent 
+        }, 
+        { 
+        name: "Doing OK", 
+        value: doingOKPercent 
+        }, 
+        { 
+        name: "Struggling", 
+        value: strugglingPercent 
+        }
+        ];
+
+        const largestGroup = wellbeingGroups.reduce( 
+        (largest, current) => 
+        current.value > largest.value ? current : largest
+        );
+
+        document.getElementById("distributionSummary").textContent = 
+        `${largestGroup.name} is the largest wellbeing group, representing ${largestGroup.value.toFixed(1)}% of students.`;
+
+        document.getElementById("meanSummary").textContent = 
+        `The average life satisfaction score is ${mean.toFixed(2)}, based on ${total.toLocaleString()} students.`;
 }
 
 function getSelectedGroupValues() {
@@ -910,10 +936,6 @@ function updateIndicatorView() {
             ? "Mean (M) with 95% confidence interval (95% CI)"
             : "Compare results across the selected student groups.";
 
-    document.getElementById("comparisonInfoButton").textContent =
-        isLifeSatisfaction
-            ? "About confidence intervals"
-            : "About this indicator";
 
     ["stackedChart", "meanChart"].forEach(id => {
         const chart = document.getElementById(id);

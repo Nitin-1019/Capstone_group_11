@@ -1554,3 +1554,25 @@ body {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
+
+.chart-summary { 
+margin-top: 14px; 
+padding: 14px 16px; 
+background: #f5f9fc; 
+border-radius: 10px; 
+border-left: 3px solid #397ab6;
+}
+
+.chart-summary strong { 
+display: block; 
+margin-bottom: 5px; 
+font-size: 13px; 
+color: var(--navy);
+}
+
+.chart-summary p { 
+margin: 0; 
+font-size: 13px; 
+line-height: 1.5; 
+color: #5d96db;
+}
