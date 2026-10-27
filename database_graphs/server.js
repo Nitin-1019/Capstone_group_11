@@ -45,6 +45,9 @@ const INDICATOR_CONFIG = {
     doingOk: "ds_score BETWEEN 4 AND 5",
     struggling: "ds_score BETWEEN 6 AND 8",
   },
+  hope: {
+    column: "chs_score"
+  },
 };
  
 // Same SES-bucket derivation as before: prefer an existing Low/Mid/High
