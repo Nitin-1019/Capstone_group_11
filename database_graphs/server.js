@@ -67,7 +67,6 @@ const INDICATOR_CONFIG = {
 // text value, otherwise derive it from seifa_decile.
 const SES_BUCKET_SQL = `
   CASE
-    WHEN ses_level IN ('Low','Mid','High') THEN ses_level
     WHEN seifa_decile BETWEEN 1 AND 3 THEN 'Low'
     WHEN seifa_decile BETWEEN 4 AND 7 THEN 'Mid'
     WHEN seifa_decile BETWEEN 8 AND 10 THEN 'High'
@@ -243,6 +242,15 @@ app.get("/api/indicator-breakdown", async (req, res) => {
   }
  
   const groupBy = req.query.groupBy === "grade" ? "grade" : "gender";
+  const splitSES = req.query.splitSES === "1";
+
+  const groupExpression = groupBy === "gender" 
+    ? `CASE
+        WHEN gender IN ("O", "P") THEN 'Other/Not Reported'
+        ELSE gender
+      END`
+    : "grade";
+
   const { column } = config;
  
   const year = req.query.year;
@@ -263,9 +271,14 @@ app.get("/api/indicator-breakdown", async (req, res) => {
   }
  
   if (sesValues.length > 0) {
-    whereClauses.push(`(${SES_BUCKET_SQL}) IN (?)`);
+    whereClauses.push("(" + SES_BUCKET_SQL + ") IN (?)");
     params.push(sesValues);
-  }
+  } else if (splitSES) {
+    whereClauses.push("(" + SES_BUCKET_SQL + ") IN (?)");
+    params.push(["Low", "Mid", "High"]); 
+    }
+
+if (sesValues.length > 0) { whereClauses.push("(" + SES_BUCKET_SQL + ") IN (?)"); params.push(sesValues); } else if (splitSES) { whereClauses.push("(" + SES_BUCKET_SQL + ") IN (?)"); params.push(["Low", "Mid", "High"]); }
  
   const whereSQL = whereClauses.join(" AND ") + ` AND ${column} IS NOT NULL`;
  
@@ -273,22 +286,21 @@ app.get("/api/indicator-breakdown", async (req, res) => {
   try {
     connection = await getConnection();
  
-    const [rows] = await connection.query( 
-    ` 
+    const [rows] = await connection.query(
+      ` 
       SELECT 
-        ${groupBy} AS group_value, 
-        ${SES_BUCKET_SQL} AS ses_group, 
-        COUNT(*) AS n, 
-        ROUND(AVG(${column}), 2) AS mean_score 
+      ${groupExpression} AS group_value, 
+      ${splitSES ? SES_BUCKET_SQL : "NULL"} AS ses_group, 
+      COUNT(*) AS n,
+      ROUND(AVG(${column}), 2) AS mean_score 
       FROM ${TABLE} 
       WHERE ${whereSQL} 
-        AND (${SES_BUCKET_SQL}) IN ('Low', 'Mid', 'High') 
-      GROUP BY ${groupBy}, ses_group 
-      ORDER BY ${groupBy}, 
+      GROUP BY group_value, ses_group 
+      ORDER BY group_value, 
         FIELD(ses_group, 'Low', 'Mid', 'High') 
-      `, 
-      params
-    );
+        `, 
+        params 
+      );
  
     const groups = rows.map((row) => ({ 
       group_value: row.group_value, 

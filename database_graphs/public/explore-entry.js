@@ -16,14 +16,14 @@
         if (indicatorButton) indicatorButton.click();
 
         const navigationLinks = document.querySelectorAll(".nav-links a");
-        const destinations = ["/index.html", "/explore.html", "/index.html#understanding", "/about.html"];
+        const destinations = ["/index.html", "/explore.html", "/methodology.html", "/about.html"];
 
         navigationLinks.forEach((link, index) => {
             link.href = destinations[index] || "/index.html";
         });
 
         document.querySelectorAll('.survey-info a[href="#"]').forEach(link => {
-            link.href = "/index.html#understanding";
+            link.href = "/methodology.html";
         });
 
         function updateAddress() {

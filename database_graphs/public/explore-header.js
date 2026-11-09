@@ -25,7 +25,7 @@
 
         navigation.id = 'rya-main-navigation';
         navigation.setAttribute('aria-label', 'Main navigation');
-        const destinations = ['/index.html', '/explore.html', '/index.html#understanding', '/about.html'];
+        const destinations = ['/index.html', '/explore.html', '/methodology.html', '/about.html'];
         navigation.querySelectorAll('a').forEach((link, index) => {
             if (destinations[index]) link.href = destinations[index];
             if (link.classList.contains('active')) link.setAttribute('aria-current', 'page');

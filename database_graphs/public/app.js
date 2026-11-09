@@ -28,8 +28,8 @@ function formatGender(value) {
     const genders = {
         F: "Female",
         M: "Male",
-        O: "Other",
-        P: "Prefer not to say"
+        O: "Other/Not Reported",
+        P: "Other/Not Reported"
     };
 
     return genders[value] || value;
@@ -257,7 +257,6 @@ function buildFilterParams(options = {}) {
     const grouping = document.getElementById("grouping").value;
 
     const secondaryAll = document.getElementById("secondaryAll").checked;
-    const sesAll = document.getElementById("sesAll").checked;
 
     const selectedGroups = getSelectedGroupValues();
     const selectedSecondary = secondaryAll ? [] : getSelectedSecondaryValues();
@@ -279,8 +278,10 @@ function buildFilterParams(options = {}) {
 
     grades.forEach(grade => params.append("grade", grade));
 
-    if (!excludeSES && !sesAll) {
-        getSelectedSESValues().forEach(ses => params.append("ses", ses));
+    if (!excludeSES) {
+        getSelectedSESValues().forEach(ses => {
+            params.append("ses", ses);
+        });
     }
 
     return params;
@@ -292,13 +293,15 @@ function buildFilterParams(options = {}) {
 // work normally. (Life Satisfaction is untouched — still uses the full
 // buildFilterParams() above with no overrides.)
 function buildDepressionFilterParams() {
-    return buildFilterParams({ lockYear: "2023", excludeSES: true });
+    return buildFilterParams({ lockYear: "2023",  });
 }
 
 
 function setupEvents() {
     const groupingSelect = document.getElementById("grouping");
-
+    
+    document.getElementById("sesOptions") 
+        .addEventListener("change", updateDashboard);
     // Gender and Grade comparison buttons — the click listener is attached
     // exactly once here. (updateCompareButtons() used to also attach a
     // listener every time it ran, including from inside this same listener,
@@ -336,11 +339,6 @@ function setupEvents() {
             containerId: "secondaryOptions",
             optionSelector: ".secondary-option"
         },
-        {
-            allId: "sesAll",
-            containerId: "sesOptions",
-            optionSelector: ".ses-option"
-        }
     ];
 
     filterGroups.forEach(group => {
@@ -375,6 +373,13 @@ function setupEvents() {
         });
     });
 
+    // SES filter changes
+    document.querySelectorAll(".ses-option").forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            updateDashboard();
+        });
+    });
+
     // Year selector
     const yearSelect = document.getElementById("year");
 
@@ -393,10 +398,9 @@ function setupEvents() {
             updateCompareButtons("genderN");
             updateGroupSelectors();
 
-            selectAllOption(
-                document.getElementById("sesAll"),
-                ".ses-option"
-            );
+            document.querySelectorAll(".ses-option").forEach(checkbox => {
+                checkbox.checked = false;
+            });
 
             if (availableYears.length > 0) {
                 document.getElementById("year").value =
@@ -417,13 +421,18 @@ function setupEvents() {
 // other indicator, including Life Satisfaction (removed from the nav but
 // kept defensively unwired here too), keeps showing the "Preview only"
 // placeholder set by updateIndicatorView() and never calls the API.
-async function updateDashboard() {
-    if (activeIndicatorId === "depression") {
-        await Promise.all([
-            loadAndRenderSummary("depression", updateDepressionSummary),
-            updateDepressionCharts(),
-        ]);
-    }
+async function updateDashboard() { 
+    if (activeIndicatorId !== "depression") { 
+        return; 
+    } 
+
+// No SES selected: clear results 
+
+
+    await Promise.all([ 
+        loadAndRenderSummary("depression", updateDepressionSummary), 
+        updateDepressionCharts() 
+    ]);
 }
 
 async function loadAndRenderSummary(indicator, renderFn) {
@@ -477,14 +486,10 @@ async function updateDepressionCharts() {
         params.set("indicator", "depression"); 
         params.set("groupBy", groupBy); 
 
-        // Expand All SES into Low, Mid and High for chart requests
-        if (sesAll) { 
-            params.delete("ses"); 
-
-            ["Low", "Mid", "High"].forEach(ses => { 
-                params.append("ses", ses); 
-            });
-        }
+        params.set(
+            "splitSES",
+            getSelectedGroupValues().length > 0 ? "1" : "0"
+        );
 
         const breakdown = await fetchJSON( 
         `/api/indicator-breakdown?${params.toString()}` 
@@ -590,7 +595,10 @@ async function updateDepressionCharts() {
                     title: groupBy === "gender" 
                         ? "Gender" 
                         : "Grade", 
-                    type: "category" 
+                    type: "category", 
+                    tickvals: traces[0].x, 
+                    ticktext: traces[0].x, 
+                    automargin: true
                 }, 
                 yaxis: { 
                     title: "Average depression score", 
