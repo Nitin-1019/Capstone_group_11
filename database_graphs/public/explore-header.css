@@ -1,0 +1,113 @@
+.top-nav.rya-unified-header {
+    display: block;
+    height: auto;
+    padding: 0;
+    background: linear-gradient(105deg, #082d54, #06264d);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+.rya-unified-header .rya-header-inner {
+    min-height: 86px;
+    max-width: 1440px;
+    margin: auto;
+    padding: 14px 38px;
+    display: flex;
+    align-items: center;
+    gap: 34px;
+}
+
+.rya-unified-header .rya-brand-link { color: white; text-decoration: none; flex-shrink: 0; }
+.rya-unified-header .brand { min-width: 0; gap: 13px; }
+.rya-unified-header .brand-logo { width: 52px; height: 52px; }
+.rya-unified-header .brand-text { font-size: 14px; line-height: 1.4; }
+.rya-unified-header .brand-text strong { font-size: 16px; }
+
+.rya-unified-header .nav-links {
+    display: flex;
+    align-self: stretch;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-left: auto;
+    height: auto;
+}
+
+.rya-unified-header .nav-links a {
+    display: block;
+    height: auto;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    opacity: 1;
+    padding-block: 13px;
+    white-space: nowrap;
+}
+
+.rya-unified-header .nav-links a[aria-current] { color: #67e0ed; }
+.rya-unified-header .nav-links a[aria-current]::after { height: 2px; bottom: 2px; inset-inline: 0; background: #67e0ed; }
+.rya-unified-header .nav-links a:hover { color: #84dce5; }
+.rya-unified-header .nav-actions { display: flex; min-width: 0; align-items: center; gap: 16px; }
+.rya-unified-header button { font: inherit; }
+
+.rya-unified-header .download-button {
+    background: white;
+    color: #082b55;
+    border: 1px solid #dae4ee;
+    border-radius: 8px;
+    padding: 10px 17px;
+    white-space: nowrap;
+    font-size: 13px;
+    opacity: .8;
+}
+
+.rya-unified-header .help-button {
+    border: 1px solid #edf5fc;
+    border-radius: 50%;
+    width: 37px;
+    height: 37px;
+    padding: 2px 6px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+}
+
+.rya-unified-header .rya-menu-toggle { display: none; }
+.rya-unified-header a:focus-visible,
+.rya-unified-header button:focus-visible { outline: 3px solid #29a6ba; outline-offset: 5px; }
+
+@media (max-width: 1120px) {
+    .rya-unified-header .rya-header-inner { padding-inline: 24px; gap: 20px; }
+    .rya-unified-header .brand-text strong { font-size: 14px; }
+    .rya-unified-header .brand-text { font-size: 12px; }
+    .rya-unified-header .brand-logo { width: 44px; height: 44px; }
+    .rya-unified-header .nav-links { gap: 20px; }
+    .rya-unified-header .nav-actions { gap: 10px; }
+    .rya-unified-header .download-button { padding-inline: 12px; }
+}
+
+@media (max-width: 960px) {
+    .rya-unified-header .rya-header-inner { flex-wrap: wrap; gap: 14px; }
+    .rya-unified-header .rya-menu-toggle { display: flex; gap: 8px; align-items: center; margin-left: auto; color: white; padding: 8px 10px; background: transparent; border: 1px solid #6e91b0; border-radius: 6px; cursor: pointer; }
+    .rya-unified-header .nav-links { display: none; order: 3; flex-basis: 100%; justify-content: start; flex-wrap: wrap; margin-left: 0; }
+    .rya-unified-header .nav-links.is-open { display: flex; }
+}
+
+@media (max-width: 600px) {
+    .rya-unified-header .rya-header-inner { min-height: 76px; padding: 13px 18px; gap: 10px; }
+    .rya-unified-header .brand { gap: 9px; }
+    .rya-unified-header .brand-logo { width: 36px; height: 36px; }
+    .rya-unified-header .brand-text strong { font-size: 12px; }
+    .rya-unified-header .brand-text { font-size: 10px; }
+    .rya-unified-header .rya-menu-toggle { font-size: 12px; padding: 8px; }
+    .rya-unified-header .download-button { display: none; }
+    .rya-unified-header .help-button { width: 32px; height: 32px; }
+}
+
+@media (max-width: 360px) {
+    .rya-unified-header .rya-header-inner { padding-inline: 12px; gap: 6px; }
+    .rya-unified-header .brand-logo { width: 30px; height: 30px; }
+    .rya-unified-header .brand-text strong { font-size: 11px; }
+    .rya-unified-header .help-button { width: 28px; height: 28px; }
+}

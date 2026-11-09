@@ -1,466 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>RYA Wellbeing Data Platform</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.6/dist/jstat.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Explore student-reported wellbeing across Australia with the Resilient Youth Australia Wellbeing Data Platform.">
+    <title>Home | RYA Wellbeing Data Platform</title>
+    <link rel="stylesheet" href="/home.css">
+    <script src="/home.js" defer></script>
 </head>
-
-
 <body>
-
-
-<!-- =========================
-     NAVIGATION
-========================= -->
-
-<header class="top-nav">
-
-    <div class="brand">
-
-        <img
-        src="assets/images/rya-logo.png"
-        alt="Resilient Youth Australia"
-        class="brand-logo"
-    >
-
-        <div class="brand-text">
-            <strong>Resilient Youth Australia</strong>
-            <span>Wellbeing Data Platform</span>
-        </div>
-
-    </div>
-
-
-    <nav class="nav-links">
-
-        <a href="#">Home</a>
-
-        <a
-            href="#"
-            class="active"
-        >
-            Explore Data
-        </a>
-
-        <a href="#">
-            Methodology
-        </a>
-
-        <a href="#">
-            About
-        </a>
-
-    </nav>
-
-
-    <div class="nav-actions">
-
-        <button class="download-button">
-            Download data
-        </button>
-
-        <button class="help-button">
-            ?
-        </button>
-
-    </div>
-
-</header>
-
-
-
-<!-- =========================
-     PAGE
-========================= -->
-
-<div class="page-wrapper">
-
-<section class="indicator-navigation" aria-label="Explore wellbeing indicators">
-    <p class="navigation-label">Wellbeing domain</p>
-
-    <div id="domainButtons" class="domain-buttons"
-         role="group" aria-label="Wellbeing domain">
-    </div>
-
-    <div class="indicator-selection">
-        <p class="navigation-label">Indicator</p>
-
-        <div id="indicatorButtons" class="indicator-buttons"
-             role="group" aria-label="Indicator">
-        </div>
-    </div>
-</section>
-
-    <!-- PAGE TITLE -->
-
-    <section class="page-heading">
-
-        <div>
-
-            <h1 id="indicatorTitle">Life Satisfaction</h1>
-
-            <p id="indicatorDescription">
-                Explore how students rate their overall life satisfaction.
-            </p>
-
-            <p>
-                Select a domain and indicator to explore student wellbeing.
-            </p>
-
-        </div>
-
-
-        <div class="survey-info">
-
-            <div class="info-circle">
-                i
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/index.html" aria-label="Resilient Youth Australia — Home">
+                <img src="/assets/images/rya-logo.png" alt="" width="54" height="54">
+                <span><strong>Resilient Youth Australia</strong><span>Wellbeing Data Platform</span></span>
+            </a>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">Menu <span aria-hidden="true">☰</span></button>
+            <nav id="primary-navigation" class="primary-navigation" aria-label="Main navigation">
+                <a href="/index.html" aria-current="page">Home</a>
+                <a href="/explore.html">Explore Data</a>
+                <a href="#understanding">Methodology</a>
+                <a href="/about.html">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="download-button" type="button" disabled title="Data downloads are not available yet.">Download data</button>
+                <button class="help-button" type="button" aria-label="Help exploring wellbeing data" data-open-help>?</button>
             </div>
+        </div>
+    </header>
 
-            <div>
+    <main id="main" class="page-content">
+        <section class="hero" aria-labelledby="hero-heading">
+            <div class="hero-copy">
+                <p class="eyebrow">Student voices. Informed action.</p>
+                <h1 id="hero-heading">Understanding<br class="desktop-break"> student wellbeing<br class="desktop-break"> across Australia</h1>
+                <p class="hero-description">Explore student-reported wellbeing to inform conversations, priorities and support.</p>
+            </div>
+            <img class="hero-image" src="/assets/images/home-students.png" alt="Four students sitting together, surrounded by illustrated leaves." width="1448" height="1086" fetchpriority="high">
+        </section>
 
-                <strong>
-                    Data from the Resilient Youth Australia Survey
-                </strong>
-
-                <p>
-                    Grade 3–12 students across Australia
-                </p>
-
-                <a href="#">
-                    View methodology →
+        <section class="explore-section" aria-labelledby="explore-heading">
+            <div class="section-heading">
+                <h2 id="explore-heading">Explore wellbeing</h2>
+                <p>Choose a domain to start exploring.</p>
+            </div>
+            <div class="domain-grid">
+                <a class="domain-card" href="/explore.html?domain=mental" data-domain="mental">
+                    <span class="domain-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M23 9c-3-5-10-3-11 2-5 0-8 6-5 10-5 4-2 11 3 12 0 5 7 8 12 4V11m3-2c3-5 10-3 11 2 5 0 8 6 5 10 5 4 2 11-3 12 0 5-7 8-12 4V11M13 17c4-1 7 2 6 5m-8 5c5-1 8 2 7 6m17-16c-4-1-7 2-6 5m8 5c-5-1-8 2-7 6M22 37v6m4-6v6"/></svg></span>
+                    <h3>Mental Wellbeing</h3>
+                    <p>Life satisfaction, hope and emotional wellbeing</p>
+                    <span class="card-arrow" aria-hidden="true">→</span>
                 </a>
-
+                <a class="domain-card" href="/explore.html?domain=learning" data-domain="learning">
+                    <span class="domain-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 12C18 7 10 8 5 10v28c7-2 13-1 19 3 6-4 12-5 19-3V10c-5-2-13-3-19 2Zm0 0v29M9 14c4-1 8 0 11 2m8 0c3-2 7-3 11-2"/></svg></span>
+                    <h3>Readiness to Learn</h3>
+                    <p>Learning mindset and engagement</p>
+                    <span class="card-arrow" aria-hidden="true">→</span>
+                </a>
+                <a class="domain-card" href="/explore.html?domain=social" data-domain="social">
+                    <span class="domain-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="13" r="6"/><path d="M14 39V29c0-8 20-8 20 0v10H14ZM11 10a5 5 0 0 0 0 10m26-10a5 5 0 0 1 0 10M9 25c-5 0-6 3-6 7v3h6m30-10c5 0 6 3 6 7v3h-6"/></svg></span>
+                    <h3>Social Environment</h3>
+                    <p>Support, relationships and safety</p>
+                    <span class="card-arrow" aria-hidden="true">→</span>
+                </a>
+                <a class="domain-card" href="/explore.html?domain=health" data-domain="health">
+                    <span class="domain-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 40S5 29 5 17C5 6 18 4 24 14 30 4 43 6 43 17c0 12-19 23-19 23Z"/><path d="M7 24h9l4-9 6 17 4-8h11"/></svg></span>
+                    <h3>Health Behaviours</h3>
+                    <p>Everyday habits and wellbeing</p>
+                    <span class="card-arrow" aria-hidden="true">→</span>
+                </a>
+                <a class="domain-card" href="/explore.html?domain=social-media" data-domain="social-media">
+                    <span class="domain-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="13" y="4" width="22" height="40" rx="4"/><path d="M18 9h12m-17 26h22m-13 5h4"/></svg></span>
+                    <h3>Social Media</h3>
+                    <p>Patterns of social media use</p>
+                    <span class="card-arrow" aria-hidden="true">→</span>
+                </a>
             </div>
+        </section>
 
-        </div>
+        <section class="guidance-panel" aria-labelledby="guidance-heading">
+            <h2 id="guidance-heading">From data to understanding</h2>
+            <ol class="guidance-steps">
+                <li><span class="step-number" aria-hidden="true">01</span><div><h3>Choose a measure</h3><p>Select a wellbeing domain and indicator.</p></div></li>
+                <li><span class="step-number" aria-hidden="true">02</span><div><h3>Refine your view</h3><p>Apply the available filters and comparisons.</p></div></li>
+                <li><span class="step-number" aria-hidden="true">03</span><div><h3>Read the findings</h3><p>Use Key insights and Further details to interpret results.</p></div></li>
+            </ol>
+        </section>
 
-    </section>
-
-
-
-    <!-- =========================
-         DASHBOARD
-    ========================= -->
-
-    <div class="dashboard-layout">
-
-
-        <!-- FILTER SIDEBAR -->
-
-        <aside class="filter-card">
-
-            <div class="filter-title">
-                <div class="filter-title-copy">
-                    <span class="filter-icon" aria-hidden="true">☷</span>
-                    <h2>Refine results</h2>
-                </div>
-
-                <button type="button" id="resetFilters" class="filter-reset">
-                    Reset
-                </button>
-            </div>
-
-            <!-- COMPARE BY -->
-
-            <div class="filter-section compare-section">
-                <div class="filter-label-row">
-                    <span>Compare results by</span>
-                </div>
-
-                <div class="compare-toggle" role="group" aria-label="Compare results by">
-                    <button
-                        type="button"
-                        class="compare-button active"
-                        data-grouping="genderN"
-                        aria-pressed="true"
-                    >
-                        Gender
-                    </button>
-
-                    <button
-                        type="button"
-                        class="compare-button"
-                        data-grouping="grade"
-                        aria-pressed="false"
-                    >
-                        Grade
-                    </button>
-                </div>
-
-                <p class="filter-helper">
-                    Controls how groups appear in the charts.
-                </p>
-
-                <select id="grouping" class="visually-hidden" aria-hidden="true" tabindex="-1">
-                    <option value="genderN">Gender</option>
-                    <option value="grade">Grade</option>
-                </select>
-            </div>
-
-            <!-- MAIN GROUP -->
-
-            <div class="filter-section">
-                <div class="filter-label-row">
-                    <span id="groupLabel">Gender</span>
-                    <span class="filter-info" aria-hidden="true">i</span>
-                </div>
-
-                <div class="filter-chip-grid" id="groupChoiceGrid">
-                    <label class="filter-chip all-chip">
-                        <input type="checkbox" id="groupAll" checked>
-                        <span id="groupAllLabel">All</span>
-                    </label>
-
-                    <div id="groupOptions" class="checkbox-options"></div>
-                </div>
-            </div>
-
-            <!-- SECONDARY FILTER -->
-
-            <div class="filter-section">
-                <div class="filter-label-row">
-                    <span id="secondaryLabel">Grade</span>
-                    <span class="filter-info" aria-hidden="true">i</span>
-                </div>
-
-                <div class="filter-chip-grid" id="secondaryChoiceGrid">
-                    <label class="filter-chip all-chip">
-                        <input type="checkbox" id="secondaryAll" checked>
-                        <span id="secondaryAllLabel">All</span>
-                    </label>
-
-                    <div id="secondaryOptions" class="checkbox-options"></div>
-                </div>
-            </div>
-
-            <!-- SES -->
-
-            <div class="filter-section">
-                <div class="filter-label-row">
-                    <span>Socioeconomic status (SES)</span>
-                    <span class="filter-info" aria-hidden="true">i</span>
-                </div>
-
-                <div class="filter-chip-grid ses-chip-grid">
-                    <label class="filter-chip all-chip">
-                        <input type="checkbox" id="sesAll" checked>
-                        <span>All</span>
-                    </label>
-
-                    <div id="sesOptions" class="checkbox-options">
-                        <label class="option-checkbox filter-chip">
-                            <input type="checkbox" class="ses-option" value="Low">
-                            <span>Low</span>
-                        </label>
-
-                        <label class="option-checkbox filter-chip">
-                            <input type="checkbox" class="ses-option" value="Mid">
-                            <span>Mid</span>
-                        </label>
-
-                        <label class="option-checkbox filter-chip">
-                            <input type="checkbox" class="ses-option" value="High">
-                            <span>High</span>
-                        </label>
-                    </div>
-                </div>
-
-                <p class="filter-helper ses-helper">
-                    Low: deciles 1–3 · Mid: 4–7 · High: 8–10
-                </p>
-            </div>
-
-            <!-- YEAR -->
-
-            <div class="filter-section year-section">
-                <label for="year">Year</label>
-                <select id="year"></select>
-            </div>
-
+        <aside id="understanding" class="data-note" aria-labelledby="data-note-heading">
+            <span class="info-icon" aria-hidden="true">i</span>
+            <div><h2 id="data-note-heading">Understanding the data</h2><p>Results describe participating students. Measures and available comparisons may vary by year.</p></div>
+            <button type="button" class="text-button" data-open-help>View methodology <span aria-hidden="true">→</span></button>
         </aside>
-
-
-
-        <!-- MAIN DASHBOARD -->
-
-        <main class="dashboard-main">
-
-
-            <!-- KPI CARDS -->
-
-            <section class="kpi-grid" id="lifeSatisfactionCards">
-
-
-                <article class="kpi-card thriving-card">
-
-                    <div class="kpi-icon">
-                        <img src="assets/images/thriving.png" alt="Thriving">
-                    </div>
-
-                    <div>
-
-                        <span class="kpi-label">
-                            Thriving
-                        </span>
-
-                        <strong
-                            class="kpi-value"
-                            id="thrivingPercent"
-                        >
-                            —
-                        </strong>
-
-                        <span class="kpi-caption">
-                            of students
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-
-                <article class="kpi-card doing-card">
-
-                    <div class="kpi-icon">
-                        <img src="assets/images/doing-ok.png" alt="Doing OK">
-                    </div>
-
-                    <div>
-
-                        <span class="kpi-label">
-                            Doing OK
-                        </span>
-
-                        <strong
-                            class="kpi-value"
-                            id="doingOKPercent"
-                        >
-                            —
-                        </strong>
-
-                        <span class="kpi-caption">
-                            of students
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-
-                <article class="kpi-card struggling-card">
-
-                    <div class="kpi-icon">
-                        <img src="assets/images/struggling.png" alt="Struggling">
-                    </div>
-
-                    <div>
-
-                        <span class="kpi-label">
-                            Struggling
-                        </span>
-
-                        <strong
-                            class="kpi-value"
-                            id="strugglingPercent"
-                        >
-                            —
-                        </strong>
-
-                        <span class="kpi-caption">
-                            of students
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-            </section>
-
-
-
-            <!-- CHARTS -->
-
-            <section class="chart-grid"> 
-
-                <article class="dashboard-card"> 
-
-                    <div class="card-heading"> 
-                        <div> 
-                            <h2 id="distributionTitle"> 
-                            Depression: comparison by gender 
-                            </h2> 
-
-                            <p id="distributionDescription"> 
-                            Average depression score by gender, 
-                            for the selected filters. 
-                    </p> 
-                </div> 
-
-                <span class="mini-info">i</span> 
-            </div> 
-
-                <div id="stackedChart" class="chart-area"></div> 
-
-                <div class="chart-summary"> 
-                    <strong>Key insight</strong> 
-                        <p id="distributionSummary"> 
-                        Summary will appear here. 
-                    </p> 
-                </div> 
-
-                </article>
-
-            </section>
-
-
-
-            <!-- SUMMARY -->
-
-
-
-            <section class="summary-banner">
-
-                <div class="summary-icon">
-                    ↗
-                </div>
-
-                <p id="summaryText">
-                    Select a wellbeing domain and indicator to explore.
-                </p>
-
-            </section>
-
-
-        </main>
-
-    </div>
-
-</div>
-
-
-<script src="app.js"></script>
-
+    </main>
+
+    <footer id="about" class="site-footer">
+        <p>Survey data: Resilient Youth Australia</p>
+        <p>Research: WiLDlab, The University of Adelaide</p>
+    </footer>
+
+    <dialog id="help-dialog" aria-labelledby="help-heading">
+        <h2 id="help-heading">Understanding the data</h2>
+        <p>Choose a wellbeing domain to open Explore Data, then select an indicator and use the available filters to refine your view.</p>
+        <p>Results describe participating students. Measures and available comparisons may vary by year. Indicators without results are marked as previews.</p>
+        <form method="dialog"><button class="dialog-close">Close</button></form>
+    </dialog>
 </body>
-
 </html>

@@ -477,6 +477,15 @@ async function updateDepressionCharts() {
         params.set("indicator", "depression"); 
         params.set("groupBy", groupBy); 
 
+        // Expand All SES into Low, Mid and High for chart requests
+        if (sesAll) { 
+            params.delete("ses"); 
+
+            ["Low", "Mid", "High"].forEach(ses => { 
+                params.append("ses", ses); 
+            });
+        }
+
         const breakdown = await fetchJSON( 
         `/api/indicator-breakdown?${params.toString()}` 
         ); 
@@ -495,47 +504,100 @@ async function updateDepressionCharts() {
         } 
 
         // Gender or Grade labels 
-        const labels = groups.map(group => 
-        groupBy === "gender" 
-        ? formatGender(group.group_value) 
-        : String(group.group_value) 
-        ); 
+        // Prepare Gender or Grade labels 
+    const labels = [...new Set( 
+        groups.map(group => String(group.group_value)) 
+    )]; 
 
-        // Average depression scores 
-        const values = groups.map(group => group.mean_score);
+    // SES groups and fixed colors 
+    const sesOrder = ["Low", "Mid", "High"]; 
 
-    // Render both comparisons in the same chart container 
-    await Plotly.newPlot( 
-        chart, 
-        [{ 
-            x: labels, 
-            y: values, 
-            type: "bar", 
-            marker: { 
-                color: "#5479A5" 
-            }, 
-            hovertemplate: 
-                "%{x}<br>Average score: %{y:.2f}<extra></extra>" 
-        }], 
-        { 
-            title: "", 
-            margin: { 
-            t: 20, 
-            r: 20, 
-            b: 60, 
-            l: 65 
+    const sesColors = { 
+        Low: "#A9BDD4", 
+        Mid: "#6385AD", 
+        High: "#344D76" 
+    }; 
+
+    // Use SES categories returned by the backend 
+    const hasSESBreakdown = groups.some( 
+        group => group.ses_group != null 
+    ); 
+
+    let traces; 
+
+    if (hasSESBreakdown) { 
+        const selectedSES = params.getAll("ses"); 
+        const activeSES = selectedSES.length > 0 
+            ? sesOrder.filter(ses => selectedSES.includes(ses)) 
+            : sesOrder; 
+
+        traces = activeSES.map(ses => ({ 
+            x: labels.map(label => 
+            groupBy === "gender" 
+                ? formatGender(label) 
+                : label 
+        ), 
+        y: labels.map(label => { 
+            const row = groups.find(group => 
+                String(group.group_value) === label && 
+                group.ses_group === ses 
+            ); 
+            return row ? Number(row.mean_score) : null; 
+        }), 
+        type: "bar", 
+        name: ses, 
+        marker: { 
+            color: sesColors[ses] 
         }, 
-        xaxis: { 
-            title: groupBy === "gender" 
-                ? "Gender" 
-                : "Grade", 
-            type: "category" 
+        hovertemplate: 
+            "%{x}<br>" + 
+            ses + " SES<br>" + 
+            "Average score: %{y:.2f}<extra></extra>" 
+        })); 
+    } else { 
+        // Compatibility with the current backend API 
+        traces = [{ 
+            x: labels.map(label => 
+                groupBy === "gender" 
+                    ? formatGender(label) 
+                    : label 
+        ), 
+        y: groups.map(group => group.mean_score), 
+        type: "bar", 
+        name: "Overall", 
+        marker: { 
+            color: "#5479A5" 
         }, 
-        yaxis: { 
-            title: "Average depression score", 
-            rangemode: "tozero" 
-            }, 
-            autosize: true 
+        hovertemplate: "%{x}<br>Average score: %{y:.2f}" + 
+                    "<extra></extra>" 
+        }]; 
+        } 
+
+        // Render comparison chart 
+        await Plotly.newPlot( 
+            chart, 
+            traces, 
+            { 
+                title: "", 
+                barmode: "group", 
+                margin: { 
+                    t: 20, 
+                    r: 20, 
+                    b: 60, 
+                    l: 65 
+                }, 
+                xaxis: { 
+                    title: groupBy === "gender" 
+                        ? "Gender" 
+                        : "Grade", 
+                    type: "category" 
+                }, 
+                yaxis: { 
+                    title: "Average depression score", 
+                    range: [0, 8], 
+                    autorange: false 
+                }, 
+                autosize: true 
         }, 
         { 
             responsive: true, 
@@ -671,50 +733,72 @@ function updateLifeSatisfaction(stats) {
 // the plain-language summaryText. This is separate from
 // updateDepressionCharts() (the Plotly comparison graph) — one data call
 // for the headline numbers, one for the per-group breakdown.
-function updateDepressionSummary(stats) {
-    if (!stats || !stats.n) {
-        if (window.setOutcomeCardStats) {
-            window.setOutcomeCardStats("depression", null);
-        }
+function updateDepressionSummary(stats) { 
+    const keyInsight = document.getElementById("distributionSummary"); 
+    const summaryText = document.getElementById("summaryText"); 
 
-        document.getElementById("summaryText").textContent =
-            "No data available for the selected filters.";
+    if (!stats || !stats.n) { 
+        if (window.setOutcomeCardStats) { 
+            window.setOutcomeCardStats("depression", null); 
+        } 
 
-        return;
+        if (keyInsight) { 
+            keyInsight.textContent = 
+                "No data available for the selected filters."; 
+        } 
+
+        if (summaryText) { 
+            summaryText.textContent = 
+                "No data available for the selected filters."; 
+    } 
+
+        return; 
+    } 
+
+    // Update Depression outcome cards 
+    if (window.setOutcomeCardStats) { 
+        window.setOutcomeCardStats("depression", [ 
+            stats.pct_thriving, 
+            stats.pct_doing_ok, 
+            stats.pct_struggling, 
+        ]); 
+    } 
+
+    const groupDescription = describeGroupSelection(); 
+
+    // Main statistics -> Key Insight 
+    const insight = 
+        `Of the ${stats.n.toLocaleString()} ${groupDescription}students, ${stats.pct_thriving.toFixed(1)}% show ` + 
+        `few or no signs of low mood and appear to be coping well. A further ${stats.pct_doing_ok.toFixed(1)}% ` + 
+        `show some signs of low mood that may be worth keeping an eye on, while ${stats.pct_struggling.toFixed(1)}% ` + 
+        `report frequent low mood and may benefit from additional support.`; 
+
+    if (keyInsight) { 
+        keyInsight.textContent = insight; 
+    } 
+
+    // Supplementary information -> Summary Text 
+    let supplementaryText = ""; 
+
+    if (stats.pct_nonenglish != null) { 
+        supplementaryText = 
+            `${stats.pct_nonenglish.toFixed(1)}% of these students come from a home where a language ` + 
+            `other than English is spoken`; 
+
+    if (stats.top_culture) { 
+        supplementaryText += 
+            `, most commonly a ${stats.top_culture} background`; 
+    } 
+
+        supplementaryText += "."; 
+    } else { 
+        supplementaryText = 
+            "No supplementary background information available."; 
+    } 
+
+    if (summaryText) { 
+        summaryText.textContent = supplementaryText; 
     }
-
-    // Low symptoms = thriving bucket, High symptoms = struggling bucket.
-    if (window.setOutcomeCardStats) {
-        window.setOutcomeCardStats("depression", [
-            stats.pct_thriving,
-            stats.pct_doing_ok,
-            stats.pct_struggling,
-        ]);
-    }
-
-    // Plain-language narrative, deliberately free of raw scores or scale
-    // labels - wording suited to a non-clinical audience (school staff)
-    // looking at sensitive wellbeing data. Names the selected gender/grade
-    // explicitly, same as updateLifeSatisfaction().
-    const groupDescription = describeGroupSelection();
-
-    let sentence =
-        `Of the ${stats.n.toLocaleString()} ${groupDescription}students, ${stats.pct_thriving.toFixed(1)}% show ` +
-        `few or no signs of low mood and appear to be coping well. A further ${stats.pct_doing_ok.toFixed(1)}% ` +
-        `show some signs of low mood that may be worth keeping an eye on, while ${stats.pct_struggling.toFixed(1)}% ` +
-        `report frequent low mood and may benefit from additional support.`;
-
-    if (stats.top_culture) {
-        sentence +=
-            ` ${stats.pct_nonenglish.toFixed(1)}% of these students come from a home where a language ` +
-            `other than English is spoken, most commonly a ${stats.top_culture} background.`;
-    } else {
-        sentence +=
-            ` ${stats.pct_nonenglish.toFixed(1)}% of these students come from a home where a language ` +
-            `other than English is spoken.`;
-    }
-
-    document.getElementById("summaryText").textContent = sentence;
 }
 
 function getSelectedGroupValues() {

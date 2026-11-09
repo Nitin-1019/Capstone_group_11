@@ -5,8 +5,24 @@ const express = require("express");
  
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.sendFile(require("node:path").join(__dirname, "public", "index.html"));
+});
+
+app.get("/home.html", (req, res) => {
+  const queryIndex = req.originalUrl.indexOf("?");
+  const query = queryIndex < 0 ? "" : req.originalUrl.slice(queryIndex);
+  res.redirect(302, `/index.html${query}`);
+});
+
+app.get("/explore", (req, res) => {
+  const queryIndex = req.originalUrl.indexOf("?");
+  const query = queryIndex < 0 ? "" : req.originalUrl.slice(queryIndex);
+  res.redirect(302, `/explore.html${query}`);
+});
  
-// Everything the browser needs (index.html, app.js, style.css) lives in
+// Everything the browser needs (index.html, explore.html, app.js, style.css) lives in
 // public/, served flat at the site root — e.g. public/app.js is reachable
 // at /app.js. No Flask-style templates/static split, and no {{ url_for(...) }}
 // syntax in index.html (Express doesn't understand Jinja) - plain
@@ -257,24 +273,30 @@ app.get("/api/indicator-breakdown", async (req, res) => {
   try {
     connection = await getConnection();
  
-    const [rows] = await connection.query(
-      `
-      SELECT
-        ${groupBy} AS group_value,
-        COUNT(*) AS n,
-        ROUND(AVG(${column}), 2) AS mean_score
-      FROM ${TABLE}
-      WHERE ${whereSQL}
-      GROUP BY ${groupBy}
-      ORDER BY ${groupBy}
-      `,
+    const [rows] = await connection.query( 
+    ` 
+      SELECT 
+        ${groupBy} AS group_value, 
+        ${SES_BUCKET_SQL} AS ses_group, 
+        COUNT(*) AS n, 
+        ROUND(AVG(${column}), 2) AS mean_score 
+      FROM ${TABLE} 
+      WHERE ${whereSQL} 
+        AND (${SES_BUCKET_SQL}) IN ('Low', 'Mid', 'High') 
+      GROUP BY ${groupBy}, ses_group 
+      ORDER BY ${groupBy}, 
+        FIELD(ses_group, 'Low', 'Mid', 'High') 
+      `, 
       params
     );
  
-    const groups = rows.map((row) => ({
-      group_value: row.group_value,
-      n: Number(row.n) || 0,
-      mean_score: row.mean_score !== null ? Number(row.mean_score) : null,
+    const groups = rows.map((row) => ({ 
+      group_value: row.group_value, 
+      ses_group: row.ses_group, 
+      n: Number(row.n) || 0, 
+      mean_score: row.mean_score !== null 
+        ?Number(row.mean_score) 
+        : null,
     }));
  
     res.json({ indicator, groupBy, groups });
