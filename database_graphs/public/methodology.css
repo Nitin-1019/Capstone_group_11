@@ -1,0 +1,147 @@
+/* Base Styles */
+* { 
+    box-sizing: border-box;
+}
+
+html { 
+    scroll-behavior: smooth;
+}
+
+body { 
+    margin: 0; 
+    font-family: Arial, sans-serif; 
+    color: #102f4f; 
+    background: #faf9f6;
+}
+
+/* 1. Website Navigation */
+
+/* 2. Hero */
+.methodology-hero { 
+    padding: 64px 24px; 
+    background: #f0f6fb;
+}
+
+.methodology-container { 
+    max-width: 1240px; 
+    margin: 0 auto;
+}
+
+.methodology-hero h1 { 
+    font-size: 38px; 
+    margin: 0 0 16px;
+}
+
+.methodology-hero p { 
+    font-size: 17px; 
+    line-height: 1.7; 
+    max-width: 640px;
+}
+
+/* 3. Main Layout */
+.methodology-layout { 
+    max-width: 1240px; 
+    margin: 0 auto; 
+    padding: 48px 24px 80px; 
+
+    display: grid; 
+    grid-template-columns: 230px minmax(0, 1fr); 
+    gap: 48px; 
+    align-items: start;
+}
+
+/* 4. Left Navigation */
+.methodology-sidebar { 
+    position: sticky; 
+    top: 24px;
+}
+
+.methodology-sidebar nav { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px;
+}
+
+.methodology-sidebar a { 
+    display: block; 
+    padding: 13px 16px; 
+    border-radius: 10px; 
+
+    color: #314964; 
+    text-decoration: none; 
+    font-size: 14px;
+}
+
+.methodology-sidebar a:hover,
+.methodology-sidebar a:focus-visible { 
+    background: #e6f1fb; 
+    color: #102f4f;
+}
+
+/* 5. Right Content */
+.methodology-content { 
+    min-width: 0;
+}
+
+.methodology-section { 
+    background: #ffffff; 
+    padding: 32px; 
+    margin-bottom: 28px; 
+
+    border: 1px solid #e7eaee; 
+    border-radius: 14px; 
+
+    scroll-margin-top: 24px;
+}
+
+.methodology-section h2 { 
+    font-size: 24px; 
+    margin: 0 0 14px;
+}
+
+.methodology-section p { 
+    color: #45566b; 
+    line-height: 1.7; 
+    margin: 0;
+}
+
+/* 6. Mobile Layout */
+@media (max-width: 768px) { 
+
+.methodology-layout { 
+    grid-template-columns: 1fr; 
+    gap: 24px; 
+    padding: 28px 16px 48px; 
+} 
+
+.methodology-sidebar { 
+    position: static; 
+} 
+
+.methodology-sidebar nav { 
+    flex-direction: row; 
+    overflow-x: auto; 
+    padding-bottom: 8px; 
+} 
+
+.methodology-sidebar a { 
+    white-space: nowrap; 
+} 
+
+.methodology-hero { 
+    padding: 40px 16px; 
+} 
+
+.methodology-hero h1 { 
+    font-size: 30px; 
+} 
+
+.methodology-section { 
+    padding: 24px; 
+} 
+
+.site-nav { 
+    flex-direction: column; 
+    align-items: flex-start; 
+}
+}

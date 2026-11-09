@@ -1643,3 +1643,61 @@ body {
     min-height: 420px; 
     flex: none;
 }
+
+#stackedChart {
+    position: relative;
+}
+
+#stackedChart .chart-tooltip {
+    position: absolute;
+    z-index: 20;
+    max-width: min(320px, calc(100% - 16px));
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #20354a;
+    box-shadow: 0 8px 24px rgba(24, 48, 80, 0.14);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    pointer-events: none;
+}
+
+#stackedChart .chart-tooltip[hidden] {
+    display: none;
+}
+
+#stackedChart .chart-tooltip-title {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#stackedChart .chart-tooltip-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+#stackedChart .chart-tooltip-dot {
+    flex: 0 0 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(79, 145, 235, 0.95);
+}
+
+#stackedChart .chart-tooltip-caption {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+#stackedChart .chart-tooltip-score {
+    margin-left: auto;
+    padding-left: 6px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}

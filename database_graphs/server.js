@@ -5,8 +5,24 @@ const express = require("express");
  
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.sendFile(require("node:path").join(__dirname, "public", "index.html"));
+});
+
+app.get("/home.html", (req, res) => {
+  const queryIndex = req.originalUrl.indexOf("?");
+  const query = queryIndex < 0 ? "" : req.originalUrl.slice(queryIndex);
+  res.redirect(302, `/index.html${query}`);
+});
+
+app.get("/explore", (req, res) => {
+  const queryIndex = req.originalUrl.indexOf("?");
+  const query = queryIndex < 0 ? "" : req.originalUrl.slice(queryIndex);
+  res.redirect(302, `/explore.html${query}`);
+});
  
-// Everything the browser needs (index.html, app.js, style.css) lives in
+// Everything the browser needs (index.html, explore.html, app.js, style.css) lives in
 // public/, served flat at the site root — e.g. public/app.js is reachable
 // at /app.js. No Flask-style templates/static split, and no {{ url_for(...) }}
 // syntax in index.html (Express doesn't understand Jinja) - plain
@@ -51,7 +67,6 @@ const INDICATOR_CONFIG = {
 // text value, otherwise derive it from seifa_decile.
 const SES_BUCKET_SQL = `
   CASE
-    WHEN ses_level IN ('Low','Mid','High') THEN ses_level
     WHEN seifa_decile BETWEEN 1 AND 3 THEN 'Low'
     WHEN seifa_decile BETWEEN 4 AND 7 THEN 'Mid'
     WHEN seifa_decile BETWEEN 8 AND 10 THEN 'High'
@@ -227,6 +242,15 @@ app.get("/api/indicator-breakdown", async (req, res) => {
   }
  
   const groupBy = req.query.groupBy === "grade" ? "grade" : "gender";
+  const splitSES = req.query.splitSES === "1";
+
+  const groupExpression = groupBy === "gender" 
+    ? `CASE
+        WHEN gender IN ("O", "P") THEN 'Other/Not Reported'
+        ELSE gender
+      END`
+    : "grade";
+
   const { column } = config;
  
   const year = req.query.year;
@@ -247,9 +271,14 @@ app.get("/api/indicator-breakdown", async (req, res) => {
   }
  
   if (sesValues.length > 0) {
-    whereClauses.push(`(${SES_BUCKET_SQL}) IN (?)`);
+    whereClauses.push("(" + SES_BUCKET_SQL + ") IN (?)");
     params.push(sesValues);
-  }
+  } else if (splitSES) {
+    whereClauses.push("(" + SES_BUCKET_SQL + ") IN (?)");
+    params.push(["Low", "Mid", "High"]); 
+    }
+
+if (sesValues.length > 0) { whereClauses.push("(" + SES_BUCKET_SQL + ") IN (?)"); params.push(sesValues); } else if (splitSES) { whereClauses.push("(" + SES_BUCKET_SQL + ") IN (?)"); params.push(["Low", "Mid", "High"]); }
  
   const whereSQL = whereClauses.join(" AND ") + ` AND ${column} IS NOT NULL`;
  
@@ -258,23 +287,28 @@ app.get("/api/indicator-breakdown", async (req, res) => {
     connection = await getConnection();
  
     const [rows] = await connection.query(
-      `
-      SELECT
-        ${groupBy} AS group_value,
-        COUNT(*) AS n,
-        ROUND(AVG(${column}), 2) AS mean_score
-      FROM ${TABLE}
-      WHERE ${whereSQL}
-      GROUP BY ${groupBy}
-      ORDER BY ${groupBy}
-      `,
-      params
-    );
+      ` 
+      SELECT 
+      ${groupExpression} AS group_value, 
+      ${splitSES ? SES_BUCKET_SQL : "NULL"} AS ses_group, 
+      COUNT(*) AS n,
+      ROUND(AVG(${column}), 2) AS mean_score 
+      FROM ${TABLE} 
+      WHERE ${whereSQL} 
+      GROUP BY group_value, ses_group 
+      ORDER BY group_value, 
+        FIELD(ses_group, 'Low', 'Mid', 'High') 
+        `, 
+        params 
+      );
  
-    const groups = rows.map((row) => ({
-      group_value: row.group_value,
-      n: Number(row.n) || 0,
-      mean_score: row.mean_score !== null ? Number(row.mean_score) : null,
+    const groups = rows.map((row) => ({ 
+      group_value: row.group_value, 
+      ses_group: row.ses_group, 
+      n: Number(row.n) || 0, 
+      mean_score: row.mean_score !== null 
+        ?Number(row.mean_score) 
+        : null,
     }));
  
     res.json({ indicator, groupBy, groups });
