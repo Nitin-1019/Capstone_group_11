@@ -73,10 +73,6 @@
 
     <div class="nav-actions">
 
-        <button class="download-button">
-            Download data
-        </button>
-
         <button class="help-button">
             ?
         </button>
@@ -285,12 +281,27 @@
             </div>
 
             <!-- YEAR -->
-
             <div class="filter-section year-section">
                 <label for="year">Year</label>
                 <select id="year"></select>
             </div>
 
+            <div class="filter-download">
+                <div class ="filter-download-header">
+                    <h3>Download Report</h3>
+                <p>
+                    Export your selected filters, charts, and summary as a PDF report.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                id="downloadPdfBtn"
+                class="download-pdf-btn"
+            >
+                Download PDF
+            </button>
+        </div>
         </aside>
 
 
@@ -457,6 +468,7 @@
 
 <script src="app.js"></script>
 <script src="explore-entry.js"></script>
+<script src="download-report.js" defer></script>
 
 </body>
 
