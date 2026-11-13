@@ -1,157 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <meta name="description" 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
         content="Learn how student wellbeing data is collected, processed and presented.">
-    <title>Methodology | RYA Wellbeing Data Platform</title> 
+    <title>Methodology | RYA Wellbeing Data Platform</title>
 
     <link rel="stylesheet" href="home.css">
 
     <link rel="stylesheet" href="methodology.css">
+    <script src="home.js" defer></script>
+    <script src="methodology.js" defer></script>
 </head>
 
-<body> 
+<body class="methodology-page">
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- 1. Website Navigation --> 
-    <header class="site-header"> 
-        <div class="header-inner"> 
-            
-            <!-- Logo and Website Name --> 
-            <a class="brand" 
-            href="index.html" 
-            aria-label="Resilient Youth Australia — Home"> 
-            
-                <img 
-                src="assets/images/rya-logo.png" 
-                alt="" 
-                width="54" 
-                height="54" 
-                > 
-                
-                <span> 
-                    <strong>Resilient Youth Australia</strong> 
-                    <span>Wellbeing Data Platform</span> 
-                </span> 
-            </a> 
-            
-            <!-- Mobile Menu --> 
-            <button 
-                class="menu-toggle" 
-                type="button" 
-                aria-expanded="false" 
-                aria-controls="primary-navigation"> 
-                Menu <span aria-hidden="true">☰</span> 
-            </button> 
-            
-            <!-- Navigation --> 
-            <nav 
-                id="primary-navigation" 
-                class="primary-navigation" 
-                aria-label="Main navigation"> 
-                
-                <a href="index.html">Home</a> 
-                
-                <a href="explore.html">Explore Data</a> 
-                
-                <a href="methodology.html" 
-                    aria-current="page"> 
-                    Methodology 
-                </a> 
-                
-                <a href="about.html">About</a> 
-            
-            </nav> 
-            
-            <!-- Header Actions --> 
-             <div class="header-actions"> 
-                
-                <button 
-                    class="download-button" 
-                    type="button" 
-                    disabled title="Data downloads are not available yet."> 
-                    Download data 
-                </button> 
-                
-                <button 
-                    class="help-button" 
-                    type="button" 
-                    aria-label="Help exploring wellbeing data" 
-                    data-open-help> 
-                    ? 
-                </button> 
-            </div> 
-        </div> 
-    </header> 
+    <!-- 1. Website Navigation -->
+    <header class="site-header">
+        <div class="header-inner">
 
-    <!-- 2. Page Introduction --> 
-        <section class="methodology-hero"> 
-            <div class="methodology-container"> 
-                <h1>Methodology</h1> 
-                <p> 
-                Learn how student wellbeing data is collected, 
-                prepared and presented in this platform. 
-            </p> 
-        </div> 
-    </section> 
+            <!-- Logo and Website Name -->
+            <a class="brand"
+            href="index.html"
+            aria-label="Resilient Youth Australia — Home">
 
-<!-- 3. Main Layout --> 
-<div class="methodology-layout"> 
+                <img
+                src="assets/images/rya-logo.png"
+                alt=""
+                width="54"
+                height="54"
+                >
 
-    <!-- Left Sidebar --> 
-    <aside class="methodology-sidebar"> 
-        <nav aria-label="Methodology sections"> 
-            <a href="#overview">Overview</a> 
-            <a href="#data-sources">Data Sources</a> 
-            <a href="#data-processing">Data Processing</a> 
-            <a href="#wellbeing-measures">Wellbeing Measures</a> 
-            <a href="#statistical-methods">Statistical Methods</a> 
-            <a href="#data-interpretation">Data Interpretation</a> 
-            <a href="#references">Limitations & References</a> 
-        </nav> 
-    </aside> 
+                <span>
+                    <strong>Resilient Youth Australia</strong>
+                    <span>Wellbeing Data Platform</span>
+                </span>
+            </a>
 
-    <!-- Right Main Content --> 
-    <main class="methodology-content"> 
+            <!-- Mobile Menu -->
+            <button
+                class="menu-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="primary-navigation">
+                Menu <span aria-hidden="true">☰</span>
+            </button>
 
-        <section id="overview" class="methodology-section"> <h2>Overview</h2> 
-            <p>Introduction to the platform's methodology.</p> 
-        </section> 
+            <!-- Navigation -->
+            <nav
+                id="primary-navigation"
+                class="primary-navigation"
+                aria-label="Main navigation">
 
-        <section id="data-sources" class="methodology-section"> 
-            <h2>Data Sources</h2> 
-            <p>Information about the survey and participants.</p> 
-        </section> 
+                <a href="index.html">Home</a>
 
-        <section id="data-processing" class="methodology-section"> 
-            <h2>Data Processing</h2> 
-            <p>How the survey data is prepared for analysis.</p> 
-        </section> 
+                <a href="explore.html">Explore Data</a>
 
-        <section id="wellbeing-measures" class="methodology-section"> 
-            <h2>Wellbeing Measures</h2> 
-            <p>How wellbeing indicators are measured and scored.</p> 
-        </section> 
+                <a href="methodology.html"
+                    aria-current="page">
+                    Methodology
+                </a>
 
-        <section id="statistical-methods" class="methodology-section"> 
-            <h2>Statistical Methods</h2> 
-            <p>How the dashboard's statistics are calculated.</p> 
-        </section> 
+                <a href="about.html">About</a>
 
-        <section id="data-interpretation" class="methodology-section"> 
-            <h2>Data Interpretation</h2> 
-            <p>Guidance on understanding the results.</p> 
-        </section> 
+            </nav>
 
-        <section id="references" class="methodology-section"> 
-            <h2>Limitations & References</h2> 
-            <p>Important considerations and research sources.</p> 
-        </section> 
+            <!-- Header Actions -->
+             <div class="header-actions">
 
-        </main> 
+
+                <button
+                    class="help-button"
+                    type="button"
+                    aria-label="Help exploring wellbeing data"
+                    data-open-help>
+                    ?
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Page Introduction -->
+        <section class="methodology-hero">
+            <div class="methodology-container">
+                <h1>Methodology</h1>
+                <p>
+                Where the data comes from. How the dashboard works.
+                What the results mean.
+            </p>
+        </div>
+    </section>
+
+<!-- 3. Main Layout -->
+<div class="methodology-layout">
+
+    <!-- Left Sidebar -->
+    <aside class="methodology-sidebar">
+        <p class="sidebar-caption">On this page</p>
+        <nav aria-label="Methodology sections">
+            <a href="#overview">Overview</a>
+            <a href="#data-sources">Data Sources</a>
+            <a href="#data-processing">Data Processing</a>
+            <a href="#wellbeing-measures">Wellbeing Measures</a>
+            <a href="#statistical-methods">Statistical Methods</a>
+            <a href="#data-interpretation">Data Interpretation</a>
+            <a href="#references">Limitations & References</a>
+        </nav>
+    </aside>
+
+    <!-- Right Main Content -->
+    <main id="main" class="methodology-content">
+
+        <section id="overview" class="methodology-section" aria-labelledby="overview-heading">
+            <p class="methodology-kicker">01 / The approach</p>
+            <h2 id="overview-heading">Overview</h2>
+            <p class="section-intro">The Wellbeing Data Platform helps users explore student wellbeing through survey results, charts and simple summaries.</p>
+            <ol class="methodology-stages" aria-label="Collect, prepare, present">
+                <li><span class="stage-number" aria-hidden="true">01</span><h3>Collect</h3><p>Students share their experiences through the RYA survey.</p></li>
+                <li><span class="stage-number" aria-hidden="true">02</span><h3>Prepare</h3><p>Survey responses and wellbeing scores are prepared for analysis.</p></li>
+                <li><span class="stage-number" aria-hidden="true">03</span><h3>Present</h3><p>Results appear in charts, summaries and downloadable reports.</p></li>
+            </ol>
+        </section>
+
+        <section id="data-sources" class="methodology-section" aria-labelledby="sources-heading">
+            <p class="methodology-kicker">02 / Survey context</p>
+            <h2 id="sources-heading">Data Sources</h2>
+            <dl class="methodology-facts source-facts">
+                <div><dt>Survey participants</dt><dd>Students who completed the Resilient Youth Australia survey.</dd></div>
+                <div><dt>Survey years</dt><dd>Explore results by year. Availability depends on the connected dataset.</dd></div>
+                <div><dt>Response information</dt><dd>Wellbeing scores alongside available gender, grade and SES information.</dd></div>
+                <div><dt>Socioeconomic context</dt><dd>SES uses ABS SEIFA 2021 IRSAD deciles, an area-based measure.</dd></div>
+            </dl>
+            <dl class="ses-bands" aria-label="SES bands"><div><dt>Low</dt><dd>Deciles 1&ndash;3</dd></div><div><dt>Mid</dt><dd>Deciles 4&ndash;7</dd></div><div><dt>High</dt><dd>Deciles 8&ndash;10</dd></div></dl>
+            <p class="supporting-copy">Area-based SES does not describe an individual student's circumstances. <a href="#reference-abs">About SEIFA</a>.</p>
+        </section>
+
+        <section id="data-processing" class="methodology-section" aria-labelledby="processing-heading">
+            <p class="methodology-kicker">03 / Behind the dashboard</p>
+            <h2 id="processing-heading">Data Processing</h2>
+            <ol class="methodology-process">
+                <li><h3>Select the dataset</h3><p>The selected year determines which dataset is used.</p></li>
+                <li><h3>Use prepared scores</h3><p>The platform reads wellbeing scores already stored in the dataset.</p></li>
+                <li><h3>Apply filters</h3><p>Year, gender, grade and SES selections shape the requested view.</p></li>
+                <li><h3>Display results</h3><p>The dashboard presents charts, percentages and summaries.</p></li>
+            </ol>
+            <details class="methodology-details"><summary>More about data processing</summary><div>
+                <p>Questionnaire scores are prepared before dashboard analysis. Missing scores are excluded for that indicator; missing results do not mean zero wellbeing. Some response-category measures have additional eligibility rules.</p>
+                <p>Low, Mid and High SES selections exclude unknown or invalid deciles. At least one band stays selected; there is no separate All button. Postcode mappings need checking for each year.</p>
+            </div></details>
+        </section>
+
+        <section id="wellbeing-measures" class="methodology-section measures-section" aria-labelledby="measures-heading">
+            <p class="methodology-kicker">04 / Explore the measures</p>
+            <h2 id="measures-heading">Wellbeing Measures</h2>
+            <p class="section-intro">Different measures tell different parts of the wellbeing story.</p>
+            <div id="measure-browser" hidden>
+                <p id="measure-navigation-help" class="supporting-copy">Choose a domain and indicator to read its explanation. Select the linked title to open its Explore Data view.</p>
+                <p id="measure-domain-label" class="measure-nav-label">Wellbeing domain</p>
+                <div id="measure-domains" class="measure-domains" role="group" aria-labelledby="measure-domain-label" aria-describedby="measure-navigation-help"></div>
+                <p id="measure-indicator-label" class="measure-nav-label">Indicator</p>
+                <div id="measure-indicators" class="measure-indicators" role="group" aria-labelledby="measure-indicator-label"></div>
+                <p id="measure-announcement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+                <article id="measure-panel" class="measure-panel" aria-labelledby="measure-title">
+                    <p id="measure-status" class="measure-status"></p>
+                    <h3 id="measure-title"><a id="measure-title-link" href="explore.html?domain=mental&amp;indicator=life-satisfaction"><span id="measure-title-text">Life Satisfaction</span><span class="measure-link-arrow" aria-hidden="true">&nearr;</span><span class="visually-hidden"> &mdash; open in Explore Data</span></a></h3>
+                    <p id="measure-description" class="measure-description"></p>
+                    <dl class="measure-explanation">
+                        <div><dt>What does it measure?</dt><dd id="measure-meaning"></dd></div>
+                        <div><dt>How to understand the score</dt><dd id="measure-direction"></dd></div>
+                        <div><dt>Understanding the results</dt><dd id="measure-results"></dd></div>
+                    </dl>
+                </article>
+            </div>
+            <noscript><p>Enable JavaScript to browse indicator explanations. You can also <a href="explore.html?domain=mental&amp;indicator=life-satisfaction">open Life Satisfaction in Explore Data</a>.</p></noscript>
+            <p class="measure-scale-note">Higher scores do not always mean better wellbeing. Use each indicator's scoring guidance. Symptom categories are not clinical diagnoses.</p>
+            <details class="methodology-details"><summary>Scoring guidance and other indicators</summary><div>
+                <p>Exact ranges and thresholds require the approved RYA Scoring Instructions. Anxiety's score direction and category mapping remain unverified; numerical cutoffs are not reproduced here. Scores should not be compared across different indicators.</p>
+                <p>Other indicators cover School Engagement, Friendship, Family, Bullying, Healthy Eating, Adequate Sleep, Physically Active and Social Media. Available views vary; previews are not survey findings.</p>
+            </div></details>
+        </section>
+
+        <section id="statistical-methods" class="methodology-section" aria-labelledby="statistics-heading">
+            <p class="methodology-kicker">05 / The numbers explained</p>
+            <h2 id="statistics-heading">Understanding the Results</h2>
+            <dl class="methodology-facts statistics-facts">
+                <div><dt>Percentages</dt><dd>The share of included students in each category.</dd></div>
+                <div><dt>Average scores</dt><dd>The average wellbeing score for the selected group.</dd></div>
+                <div><dt>Group comparisons</dt><dd>Results shown across available student groups.</dd></div>
+                <div><dt>Statistical testing</dt><dd>Some Depression comparisons assess evidence for a difference.</dd></div>
+            </dl>
+            <details class="methodology-details"><summary>Technical details</summary><div>
+                <p>Depression comparisons use a two-sided Mann&ndash;Whitney U test on score ranks (normal approximation, corrected for ties) and a two-proportion z-test on the share with high symptoms, with p &lt; 0.05 as the threshold.</p>
+                <p>These tests do not establish causation or practical importance. The rank test does not directly test averages. Small groups need caution, and multiple comparisons are not adjusted, increasing the chance of chance findings. A non-significant result does not prove equality.</p>
+                <p>Averages can hide variation. Percentages depend on eligible responses and rounding, so they may not total 100%. Do not assume other indicators use these tests.</p>
+            </div></details>
+        </section>
+
+        <section id="data-interpretation" class="methodology-section" aria-labelledby="interpretation-heading">
+            <p class="methodology-kicker">06 / Four reading tips</p>
+            <h2 id="interpretation-heading">Data Interpretation</h2>
+            <ol class="interpretation-tips">
+                <li><h3>Check your filters</h3><p>Year, gender, grade and SES selections affect the requested view.</p></li>
+                <li><h3>Understand score direction</h3><p>Higher scores do not always mean better wellbeing.</p></li>
+                <li><h3>Compare carefully</h3><p>Group differences show patterns, not causes. Survey years may include different students or measures.</p></li>
+                <li><h3>Read the context</h3><p>Check labels, group definitions and sample sizes. Comparison summaries may cover different groups from the filtered total.</p></li>
+            </ol>
+        </section>
+
+        <section id="references" class="methodology-section" aria-labelledby="references-heading">
+            <p class="methodology-kicker">07 / Responsible use</p>
+            <h2 id="references-heading">Limitations &amp; References</h2>
+            <div class="references-layout">
+                <div><h3>Limitations</h3><ul class="methodology-list">
+                    <li>Results are based on student-reported responses.</li>
+                    <li>Participants may not represent all Australian students.</li>
+                    <li>Response numbers can differ between indicators.</li>
+                    <li>Area-based SES does not describe individual circumstances.</li>
+                </ul></div>
+                <div><h3>Key Sources</h3><ul class="methodology-references">
+                    <li><cite>RYA Scoring Instructions</cite></li>
+                    <li><cite>RYA Wellbeing Data Platform Presentation Guidelines</cite></li>
+                    <li id="reference-abs"><a href="https://www.abs.gov.au/methodologies/socio-economic-indexes-areas-seifa-australia-methodology/2021">Australian Bureau of Statistics &mdash; SEIFA 2021 (IRSAD)</a></li>
+                </ul><p class="supporting-copy">RYA documents are project references; copies are not linked here.</p></div>
+            </div>
+            <div class="privacy-note"><h3>Protect small groups</h3><p>Groups with fewer than 10 students require privacy protection. Review results against approved reporting rules before publication; automatic suppression is not confirmed.</p></div>
+            <a class="methodology-explore" href="explore.html">Explore the data <span aria-hidden="true">&rarr;</span></a>
+        </section>
+
+        </main>
 
     </div>
 
+    <footer class="site-footer"><p>Survey data: Resilient Youth Australia &middot; Research: Adelaide University</p></footer>
+    <dialog id="help-dialog" aria-labelledby="help-heading">
+        <h2 id="help-heading">Understanding the data</h2>
+        <p>Choose a wellbeing domain in Explore Data, then select an indicator and use the available filters to refine your view.</p>
+        <p>This Methodology page explains the measures, comparisons and limitations. Available results vary by survey year.</p>
+        <form method="dialog"><button class="dialog-close">Close</button></form>
+    </dialog>
 </body>
 </html>
