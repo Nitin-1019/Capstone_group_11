@@ -73,10 +73,6 @@
 
     <div class="nav-actions">
 
-        <button class="download-button">
-            Download data
-        </button>
-
         <button class="help-button">
             ?
         </button>
@@ -144,7 +140,7 @@
                     Grade 3–12 students across Australia
                 </p>
 
-                <a href="/index.html#understanding">
+                <a href="/methodology.html">
                     View methodology →
                 </a>
 
@@ -262,17 +258,17 @@
                 <div class="filter-chip-grid ses-chip-grid">
                     <div id="sesOptions" class="checkbox-options">
                         <label class="option-checkbox filter-chip">
-                            <input type="checkbox" class="ses-option" value="Low">
+                            <input type="checkbox" class="ses-option" value="Low" checked>
                             <span>Low</span>
                         </label>
 
                         <label class="option-checkbox filter-chip">
-                            <input type="checkbox" class="ses-option" value="Mid">
+                            <input type="checkbox" class="ses-option" value="Mid" checked>
                             <span>Mid</span>
                         </label>
 
                         <label class="option-checkbox filter-chip">
-                            <input type="checkbox" class="ses-option" value="High">
+                            <input type="checkbox" class="ses-option" value="High" checked>
                             <span>High</span>
                         </label>
                     </div>
@@ -285,12 +281,27 @@
             </div>
 
             <!-- YEAR -->
-
             <div class="filter-section year-section">
                 <label for="year">Year</label>
                 <select id="year"></select>
             </div>
 
+            <div class="filter-download">
+                <div class ="filter-download-header">
+                    <h3>Download Report</h3>
+                <p>
+                    Export your selected filters, charts, and summary as a PDF report.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                id="downloadPdfBtn"
+                class="download-pdf-btn"
+            >
+                Download PDF
+            </button>
+        </div>
         </aside>
 
 
@@ -457,6 +468,7 @@
 
 <script src="app.js"></script>
 <script src="explore-entry.js"></script>
+<script src="download-report.js" defer></script>
 
 </body>
 
