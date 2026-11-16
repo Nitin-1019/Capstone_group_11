@@ -29,3 +29,37 @@
         button.addEventListener("click", () => helpDialog.showModal());
     });
 })();
+
+(() => {
+    const homeFooter = document.querySelector("footer#about.site-footer");
+    homeFooter?.querySelectorAll("p").forEach(paragraph => {
+        if (paragraph.textContent.trim().startsWith("Research:")) {
+            paragraph.textContent = "Research: Adelaide University";
+        }
+    });
+
+    const methodologyButton = document.querySelector("#understanding button.text-button[data-open-help]");
+    if (methodologyButton) {
+        const methodologyLink = document.createElement("a");
+        methodologyLink.className = methodologyButton.className;
+        methodologyLink.href = "/methodology.html";
+        methodologyLink.append(...methodologyButton.childNodes);
+        methodologyButton.replaceWith(methodologyLink);
+    }
+})();
+
+(() => {
+    const footer = document.querySelector('footer.site-footer');
+    if (!footer) return;
+
+    const credits = [
+        'Survey data: Resilient Youth Australia',
+        'Research: Adelaide University'
+    ].map(text => {
+        const paragraph = document.createElement('p');
+        paragraph.textContent = text;
+        return paragraph;
+    });
+    footer.replaceChildren(...credits);
+    footer.classList.add('rya-unified-footer');
+})();

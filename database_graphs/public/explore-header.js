@@ -25,7 +25,7 @@
 
         navigation.id = 'rya-main-navigation';
         navigation.setAttribute('aria-label', 'Main navigation');
-        const destinations = ['/index.html', '/explore.html', '/index.html#understanding', '/about.html'];
+        const destinations = ['/index.html', '/explore.html', '/methodology.html', '/about.html'];
         navigation.querySelectorAll('a').forEach((link, index) => {
             if (destinations[index]) link.href = destinations[index];
             if (link.classList.contains('active')) link.setAttribute('aria-current', 'page');
@@ -72,5 +72,31 @@
         document.addEventListener('DOMContentLoaded', initialiseSharedHeader, { once: true });
     } else {
         initialiseSharedHeader();
+    }
+})();
+
+(() => {
+    function initialiseDataFooter() {
+        if (!document.querySelector('.top-nav') || document.querySelector('footer')) return;
+
+        const footer = document.createElement('footer');
+        footer.className = 'site-footer rya-data-footer';
+
+        for (const credit of [
+            'Survey data: Resilient Youth Australia',
+            'Research: Adelaide University'
+        ]) {
+            const paragraph = document.createElement('p');
+            paragraph.textContent = credit;
+            footer.append(paragraph);
+        }
+
+        document.body.append(footer);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initialiseDataFooter, { once: true });
+    } else {
+        initialiseDataFooter();
     }
 })();

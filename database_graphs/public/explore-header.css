@@ -111,3 +111,19 @@
     .rya-unified-header .brand-text strong { font-size: 11px; }
     .rya-unified-header .help-button { width: 28px; height: 28px; }
 }
+
+.rya-data-footer {
+    background: var(--navy, #082b55);
+    color: #f0f5fc;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 20px 24px;
+}
+
+.rya-data-footer p { margin: 2px 0; }
+
+@media (max-width: 600px) {
+    .rya-data-footer { padding: 19px 20px; font-size: 12px; }
+}
