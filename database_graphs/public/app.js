@@ -2102,6 +2102,14 @@ function updateAllOption(allCheckbox, optionSelector, collapseWhenFullySelected 
   // indicator's `labels` array. Populated by updateDepressionSummary() via
   // window.setOutcomeCardStats() below — everything else stays at '—'
   // until a future indicator is wired up the same way.
+  ['healthy-eating', 'adequate-sleep', 'physically-active'].forEach(indicator => {
+    views[indicator] = make(
+      views[indicator].title,
+      [...views.friendship.labels],
+      [...views.friendship.images]
+    );
+  });
+
   const outcomeStats = {};
 
   function element(tag, className, text) {
